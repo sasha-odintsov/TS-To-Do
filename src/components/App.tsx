@@ -29,10 +29,12 @@ const App: React.FC = () => {
   };
 
   const onToggleTodo = (id: number): void => {
-    setDotos(todos.map((todo) => {
-      if (todo.id === id) return { ...todo, checked: !todo.checked }
-      return todo;
-    }));
+    setDotos(
+      todos.map((todo) => {
+        if (todo.id === id) return { ...todo, checked: !todo.checked };
+        return todo;
+      })
+    );
   };
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
