@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ITodo } from "../types/data";
 import TodoList from "./TodoList";
+import Input from "./Input";
 
 const App: React.FC = () => {
   const [value, setValue] = useState("");
@@ -17,7 +18,8 @@ const App: React.FC = () => {
         {
           id: Date.now(),
           title: value,
-          checked: false,
+          is_done: false,
+          created_at: new Date(),
         },
       ]);
       setValue("");
@@ -31,14 +33,10 @@ const App: React.FC = () => {
   const onToggleTodo = (id: number): void => {
     setDotos(
       todos.map((todo) => {
-        if (todo.id === id) return { ...todo, checked: !todo.checked };
+        if (todo.id === id) return { ...todo, is_done: !todo.is_done, updated_at: new Date() };
         return todo;
       })
     );
-  };
-
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === "Enter") onAddTodo();
   };
 
   useEffect(() => {
@@ -46,15 +44,19 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <div>
-        <input
-          value={value}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          ref={inputRef}
-        />
-        <button onClick={onAddTodo}>+ Add</button>
+    <div style={{ padding: 50 }}>
+      <div
+        style={{
+          textTransform: "uppercase",
+          textAlign: "center",
+          marginBottom: 20,
+          fontWeight: "bold",
+        }}
+      >
+        Tasks List
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
+        <Input onClick={onAddTodo} onChange={handleChange} value={value} />
       </div>
       <TodoList
         todos={todos}
