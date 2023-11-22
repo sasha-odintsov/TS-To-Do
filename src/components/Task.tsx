@@ -6,6 +6,13 @@ const Task: React.FC<ITask> = (props) => {
   const { id, title, is_done, created_at, updated_at } = props;
   const dispatch = useAppDispatch();
 
+  const getDate = (isoStr: string | undefined) => {
+    if (!isoStr) return "";
+
+    const date = new Date(isoStr);
+    return date.toLocaleString();
+  };
+
   return (
     <div
       style={{
@@ -19,9 +26,7 @@ const Task: React.FC<ITask> = (props) => {
     >
       <div>
         <div style={{ marginBottom: 5 }}>
-          {!is_done
-            ? created_at.toLocaleString()
-            : updated_at?.toLocaleString()}
+          {!is_done ? getDate(created_at) : getDate(updated_at)}
         </div>
         <div>
           <input
@@ -29,9 +34,7 @@ const Task: React.FC<ITask> = (props) => {
             checked={is_done}
             onChange={() => dispatch(toggleTask(id))}
           />
-          <span style={{ fontSize: 18 }}>
-            {title}
-          </span>
+          <span style={{ fontSize: 18 }}>{title}</span>
         </div>
       </div>
       <div style={{ marginLeft: 10 }}>

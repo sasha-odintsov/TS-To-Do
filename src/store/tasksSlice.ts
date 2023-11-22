@@ -15,19 +15,23 @@ const tasksSlice = createSlice({
   reducers: {
     addTask(state, { payload }: PayloadAction<string>) {
       state.tasks.push({
-        id: Date.now(),
+        id: new Date().toISOString(),
         title: payload,
         is_done: false,
-        created_at: new Date(),
+        created_at: new Date().toISOString(),
       });
     },
-    removeTask(state, { payload }: PayloadAction<number>) {
+    removeTask(state, { payload }: PayloadAction<string>) {
       state.tasks = state.tasks.filter(({ id }) => id !== payload);
     },
-    toggleTask(state, { payload }: PayloadAction<number>) {
+    toggleTask(state, { payload }: PayloadAction<string>) {
       state.tasks = state.tasks.map((task) => {
         if (task.id === payload)
-          return { ...task, is_done: !task.is_done, updated_at: new Date() };
+          return {
+            ...task,
+            is_done: !task.is_done,
+            updated_at: new Date().toISOString(),
+          };
         return task;
       });
     },
