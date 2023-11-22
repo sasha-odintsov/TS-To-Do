@@ -1,4 +1,4 @@
-export interface ITodo {
+export interface ITask {
   id: number;
   title: string;
   is_done: boolean;

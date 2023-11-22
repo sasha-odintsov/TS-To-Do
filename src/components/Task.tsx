@@ -1,20 +1,10 @@
-import { ITodo } from "../types/data";
+import { ITask } from "../types/data";
+import { useAppDispatch } from "../hooks";
+import { toggleTask, removeTask } from "../store/tasksSlice";
 
-interface ITodoItem extends ITodo {
-  onToggleTodo: (id: number) => void;
-  onRemoveTodo: (id: number) => void;
-}
-
-const TodoItem: React.FC<ITodoItem> = (props) => {
-  const {
-    id,
-    title,
-    is_done,
-    created_at,
-    updated_at,
-    onToggleTodo,
-    onRemoveTodo,
-  } = props;
+const Task: React.FC<ITask> = (props) => {
+  const { id, title, is_done, created_at, updated_at } = props;
+  const dispatch = useAppDispatch();
 
   return (
     <div
@@ -37,16 +27,18 @@ const TodoItem: React.FC<ITodoItem> = (props) => {
           <input
             type="checkbox"
             checked={is_done}
-            onChange={() => onToggleTodo(id)}
+            onChange={() => dispatch(toggleTask(id))}
           />
-          <span style={{ fontSize: 18 }}>{title}</span>
+          <span style={{ fontSize: 18 }}>
+            {title}
+          </span>
         </div>
       </div>
       <div style={{ marginLeft: 10 }}>
-        <button onClick={() => onRemoveTodo(id)}>x</button>
+        <button onClick={() => dispatch(removeTask(id))}>x</button>
       </div>
     </div>
   );
 };
 
-export default TodoItem;
+export default Task;
