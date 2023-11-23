@@ -1,50 +1,36 @@
 import TasksListItem from "./TasksListItem";
 import { useAppSelector } from "../hooks";
 
+type TaskType = "Todo" | "Done";
+
 const TasksList = () => {
   const tasks = useAppSelector((state) => state.tasks.tasks);
-  // const filteredTodo = () => {
-  //   return tasks
-  //   .filter(({ is_done }) => !is_done)
-  //   .sort((a, b) => b.created_at.getTime() - a.created_at.getTime())
-  //  }; // need to do
-  // const filteredDone = () => {
-  //   return tasks
-  //     .filter(({ is_done }) => is_done)
-  //     .sort((a, b) =>
-  //       b.updated_at && a.updated_at
-  //         ? b.updated_at.getTime() - a.updated_at.getTime()
-  //         : 0
-  //     );
-  // }; // need to do
+
+  const filteredTasks = (type: TaskType) => {
+    return tasks
+      .filter(({ is_done }) => (type === "Todo" ? !is_done : is_done))
+      .sort((a, b) => {
+        const dateA = new Date(
+          type === "Done" && a.done_at ? a.done_at : a.created_at
+        );
+        const dateB = new Date(
+          type === "Done" && b.done_at ? b.done_at : b.created_at
+        );
+
+        return dateB.getTime() - dateA.getTime();
+      });
+  };
 
   return (
-    <div style={{ display: "flex", height: 600 }}>
+    <div style={{ display: "flex", minHeight: "calc(100vh - 205px)" }}>
       <TasksListItem
         title="To Do"
-        list={tasks
-          .filter(({ is_done }) => !is_done)
-          .sort((a, b) => {
-            const dateA = new Date(a.created_at);
-            const dateB = new Date(b.created_at);
-
-            return dateB.getTime() - dateA.getTime();
-          })}
+        list={filteredTasks("Todo")}
         style={{ width: "50%" }}
       />
       <TasksListItem
         title="Done"
-        list={tasks
-          .filter(({ is_done }) => is_done)
-          .sort((a, b) => {
-            if (b.updated_at && a.updated_at) {
-              const dateA = new Date(a.updated_at);
-              const dateB = new Date(b.updated_at);
-
-              return dateB.getTime() - dateA.getTime();
-            }
-            return 0;
-          })}
+        list={filteredTasks("Done")}
         style={{ width: "50%" }}
       />
     </div>

@@ -3,5 +3,5 @@ export interface ITask {
   title: string;
   is_done: boolean;
   created_at: string;
-  updated_at?: string;
+  done_at?: string;
 }

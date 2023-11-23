@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { ITask } from "../types/data";
 import { useAppDispatch } from "../hooks";
-import { toggleTask, removeTask } from "../store/tasksSlice";
+import { removeTask, editTask } from "../store/tasksSlice";
 
 const Task: React.FC<ITask> = (props) => {
-  const { id, title, is_done, created_at, updated_at } = props;
+  const { id, title, is_done, created_at, done_at } = props;
+  const [isEditable, setEditable] = useState(false);
+  const [value, setValue] = useState(title);
   const dispatch = useAppDispatch();
 
   const getDate = (isoStr: string | undefined) => {
@@ -26,19 +29,63 @@ const Task: React.FC<ITask> = (props) => {
     >
       <div>
         <div style={{ marginBottom: 5 }}>
-          {!is_done ? getDate(created_at) : getDate(updated_at)}
+          {!is_done ? getDate(created_at) : getDate(done_at)}
         </div>
-        <div>
+        <div style={{ display: isEditable ? "none" : "block" }}>
           <input
             type="checkbox"
             checked={is_done}
-            onChange={() => dispatch(toggleTask(id))}
+            onChange={() =>
+              dispatch(
+                editTask({
+                  ...props,
+                  is_done: !is_done,
+                  done_at: new Date().toISOString(),
+                })
+              )
+            }
           />
           <span style={{ fontSize: 18 }}>{title}</span>
         </div>
+        <div style={{ display: !isEditable ? "none" : "block" }}>
+          <textarea
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            style={{ width: 300 }}
+          ></textarea>
+        </div>
       </div>
       <div style={{ marginLeft: 10 }}>
-        <button onClick={() => dispatch(removeTask(id))}>x</button>
+        {!isEditable && <button onClick={() => setEditable(true)}>Edit</button>}
+        {!isEditable && (
+          <button onClick={() => dispatch(removeTask(id))}>Delete</button>
+        )}
+        {isEditable && (
+          <>
+            <button
+              onClick={() => {
+                dispatch(
+                  editTask({
+                    ...props,
+                    title: value,
+                    created_at: new Date().toISOString(),
+                  })
+                );
+                setEditable(false);
+              }}
+            >
+              Save
+            </button>
+            <button
+              onClick={() => {
+                setEditable(false);
+                setValue(title);
+              }}
+            >
+              Cancel
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
