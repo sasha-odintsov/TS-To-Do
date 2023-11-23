@@ -4,4 +4,5 @@ export interface ITask {
   is_done: boolean;
   created_at: string;
   done_at?: string;
+  user: string | null;
 }

@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { ITask } from "../types/data";
-import { useAppDispatch } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { removeTask, editTask } from "../store/tasksSlice";
+import Button from "./Button";
 
 const Task: React.FC<ITask> = (props) => {
-  const { id, title, is_done, created_at, done_at } = props;
+  const { id, title, is_done, created_at, done_at, user } = props;
   const [isEditable, setEditable] = useState(false);
   const [value, setValue] = useState(title);
   const dispatch = useAppDispatch();
+  const storeUser = useAppSelector((state) => state.user.user);
 
   const getDate = (isoStr: string | undefined) => {
     if (!isoStr) return "";
@@ -30,6 +32,9 @@ const Task: React.FC<ITask> = (props) => {
       <div>
         <div style={{ marginBottom: 5 }}>
           {!is_done ? getDate(created_at) : getDate(done_at)}
+          {user && (
+            <span style={{ textTransform: "capitalize" }}> - {user}</span>
+          )}
         </div>
         <div style={{ display: isEditable ? "none" : "block" }}>
           <input
@@ -56,34 +61,35 @@ const Task: React.FC<ITask> = (props) => {
         </div>
       </div>
       <div style={{ marginLeft: 10 }}>
-        {!isEditable && <button onClick={() => setEditable(true)}>Edit</button>}
+        {!isEditable && !is_done && (
+          <Button onClick={() => setEditable(true)} text="Edit" />
+        )}
         {!isEditable && (
-          <button onClick={() => dispatch(removeTask(id))}>Delete</button>
+          <Button onClick={() => dispatch(removeTask(id))} text="Delete" />
         )}
         {isEditable && (
           <>
-            <button
+            <Button
               onClick={() => {
                 dispatch(
                   editTask({
                     ...props,
                     title: value,
                     created_at: new Date().toISOString(),
+                    user: storeUser,
                   })
                 );
                 setEditable(false);
               }}
-            >
-              Save
-            </button>
-            <button
+              text="Save"
+            />
+            <Button
               onClick={() => {
                 setEditable(false);
                 setValue(title);
               }}
-            >
-              Cancel
-            </button>
+              text="Cancel"
+            />
           </>
         )}
       </div>

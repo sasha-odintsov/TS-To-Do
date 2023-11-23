@@ -1,12 +1,23 @@
 import { useEffect, useRef } from "react";
+import { CSSProperties } from "react";
 
-interface IInputProps {
+interface Props {
   onChange: (str: string) => void;
   onClick: () => void;
   value: string;
+  isFocused?: boolean;
+  style?: CSSProperties;
+  placeholder?: string;
 }
 
-const Input = ({ onChange, onClick, value }: IInputProps) => {
+const Input = ({
+  onChange,
+  onClick,
+  value,
+  isFocused = false,
+  style = {},
+  placeholder,
+}: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -14,25 +25,18 @@ const Input = ({ onChange, onClick, value }: IInputProps) => {
   };
 
   useEffect(() => {
-    if (inputRef.current) inputRef.current.focus();
-  }, []);
+    if (isFocused && inputRef.current) inputRef.current.focus();
+  }, [isFocused]);
 
   return (
-    <div>
-      <input
-        value={value || ""}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        ref={inputRef}
-        style={{ width: 200, padding: 5, borderRadius: 5, marginRight: 2 }}
-      />
-      <button
-        onClick={onClick}
-        style={{ padding: 5, borderRadius: 5, cursor: "pointer" }}
-      >
-        + Add Task
-      </button>
-    </div>
+    <input
+      value={value || ""}
+      onChange={(e) => onChange(e.target.value)}
+      onKeyDown={handleKeyDown}
+      ref={inputRef}
+      style={{ ...style, borderRadius: 5 }}
+      placeholder={placeholder}
+    />
   );
 };
 

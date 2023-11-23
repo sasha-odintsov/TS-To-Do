@@ -14,7 +14,6 @@ const TasksListItem = ({ title, list, style }: ITasksListItemProps) => {
       style={{
         ...style,
         border: "1px solid #000",
-        margin: 10,
         borderRadius: 5,
         padding: 10,
       }}
