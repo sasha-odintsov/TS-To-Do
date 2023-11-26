@@ -8,7 +8,7 @@ This app build using:
 - redux-toolkit to store data, 
 - redux-persist to save data to local storage
 
-Demo: tasks-todo-list-app.netlify.app
+Demo: https://tasks-todo-list-app.netlify.app
 
 ## Up and Run
 
