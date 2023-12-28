@@ -18,6 +18,17 @@ const Task: React.FC<ITask> = (props) => {
     return date.toLocaleString();
   };
 
+  const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setData("text/plain", JSON.stringify(props));
+    e.dataTransfer.effectAllowed = "move";
+    e.currentTarget.style.transform = "scale(.98)";
+    e.currentTarget.style.opacity = "0.5";
+  };
+  const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    e.currentTarget.style.opacity = "1";
+    e.currentTarget.style.transform = "none";
+  };
+
   return (
     <div
       style={{
@@ -27,7 +38,14 @@ const Task: React.FC<ITask> = (props) => {
         borderRadius: 5,
         display: "flex",
         justifyContent: "space-between",
+        cursor: "grab",
+        //:active - cursor: grabbing
+        transition: "all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)",
+        backgroundColor: "#fff",
       }}
+      draggable={true}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
     >
       <div>
         <div style={{ marginBottom: 5 }}>
