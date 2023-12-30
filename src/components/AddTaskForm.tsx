@@ -28,18 +28,19 @@ const AddTaskForm = () => {
   };
 
   return (
-    <div>
+    <div className="border border-slate-100 w-1/2 rounded-lg p-7 flex bg-white shadow-lg shadow-slate-200">
       <Input
         value={value}
         onChange={handleChange}
         onClick={onAddTask}
         isFocused={true}
-        style={{ width: 200, marginRight: 2, padding: 5 }}
+        className="grow bg-slate-100 p-3 me-4 focus:ring-0 focus:outline-none shadow-inner"
+        placeholder="Enter task"
       />
       <Button
         onClick={onAddTask}
-        style={{ padding: 5, borderRadius: 5 }}
         text="+ Add Task"
+        className="button-main"
       />
     </div>
   );

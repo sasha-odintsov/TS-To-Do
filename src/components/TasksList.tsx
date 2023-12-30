@@ -26,17 +26,16 @@ const TasksList = () => {
   return (
     <div
       style={{
-        display: "flex",
-        minHeight: "calc(100vh - 210px)",
-        padding: "10px 0",
+        minHeight: "calc(100vh - 295px)",
       }}
+      className="flex pt-7 gap-7"
     >
       {taskTypes.map((type, index) => (
         <TasksListItem
           key={index}
           title={type}
           list={filteredTasks(type)}
-          style={{ width: "50%", marginRight: index === 0 ? 10 : 0 }}
+          style={{ width: "50%" }}
         />
       ))}
     </div>

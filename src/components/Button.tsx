@@ -1,16 +1,14 @@
-import { CSSProperties } from "react";
-
 interface Props {
   onClick: () => void;
   text: string;
-  style?: CSSProperties;
+  className?: string;
 }
 
-const Button = ({ onClick, text, style = {} }: Props) => {
+const Button = ({ onClick, text, className }: Props) => {
   return (
     <button
       onClick={onClick}
-      style={{ ...style, cursor: "pointer" }}
+      className={`${className} transition-all duration-200 font-medium shadow-md active:shadow-none hover:shadow-lg`}
     >
       {text}
     </button>

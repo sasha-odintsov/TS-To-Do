@@ -17,33 +17,33 @@ const User = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "end" }}>
+    <div className="border border-slate-100 w-1/2 rounded-lg p-7 flex bg-white shadow-lg shadow-slate-200">
       {!storeUser ? (
-        <div>
+        <div className="flex w-full">
           <Input
             onChange={(value) => setUser(value)}
             onClick={onSetUser}
             value={user}
-            style={{ padding: 3, marginRight: 2 }}
             placeholder="Enter your name"
+            className="grow bg-slate-100 p-3 me-4 focus:ring-0 focus:outline-none shadow-inner"
           />
           <Button
             onClick={onSetUser}
             text="Set Name"
-            style={{ padding: 3, borderRadius: 5 }}
+            className="button-main"
           />
         </div>
       ) : (
-        <div>
-          <span style={{ marginRight: 10, textTransform: "capitalize" }}>
-            Hello, {storeUser}
+        <div className="flex items-center justify-between w-full">
+          <span className="capitalize me-4 text-lg text-gray-500">
+            Hello, <span className="font-medium">{storeUser}</span>
           </span>
           <Button
             onClick={() => {
               dispatch(editUser(""));
             }}
             text="Exit"
-            style={{ padding: 3, borderRadius: 5 }}
+            className="button-main"
           />
         </div>
       )}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ITask } from "../types/data";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { removeTask, editTask } from "../store/tasksSlice";
@@ -9,6 +9,7 @@ const Task: React.FC<ITask> = (props) => {
   const [isEditable, setEditable] = useState(false);
   const [value, setValue] = useState(title);
   const dispatch = useAppDispatch();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const storeUser = useAppSelector((state) => state.user.user);
 
   const getDate = (isoStr: string | undefined) => {
@@ -22,37 +23,28 @@ const Task: React.FC<ITask> = (props) => {
     e.dataTransfer.setData("text/plain", JSON.stringify(props));
     e.dataTransfer.effectAllowed = "move";
     e.currentTarget.style.transform = "scale(.98)";
-    e.currentTarget.style.opacity = "0.5";
+    e.currentTarget.style.opacity = "0.4";
   };
   const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
     e.currentTarget.style.opacity = "1";
     e.currentTarget.style.transform = "none";
   };
 
+  useEffect(() => {
+    if (isEditable && textareaRef.current) textareaRef.current.focus();
+  }, [isEditable]);
+
   return (
     <div
-      style={{
-        padding: 5,
-        border: "1px solid #000",
-        margin: "10px 20px",
-        borderRadius: 5,
-        display: "flex",
-        justifyContent: "space-between",
-        cursor: "grab",
-        //:active - cursor: grabbing
-        transition: "all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)",
-        backgroundColor: "#fff",
-      }}
       draggable={true}
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
+      className="cursor-grab active:cursor-grabbing flex justify-between border border-slate-100 shadow-inner rounded-md bg-slate-50 p-4 my-3 ease-in-out transition-all"
     >
       <div>
-        <div style={{ marginBottom: 5 }}>
+        <div className="mb-2 text-sm">
           {!is_done ? getDate(created_at) : getDate(done_at)}
-          {user && (
-            <span style={{ textTransform: "capitalize" }}> - {user}</span>
-          )}
+          {user && <span className="capitalize"> - {user}</span>}
         </div>
         <div style={{ display: isEditable ? "none" : "block" }}>
           <input
@@ -67,23 +59,32 @@ const Task: React.FC<ITask> = (props) => {
                 })
               )
             }
+            className="me-1"
           />
-          <span style={{ fontSize: 18 }}>{title}</span>
+          <span className="text-lg">{title}</span>
         </div>
-        <div style={{ display: !isEditable ? "none" : "block" }}>
-          <textarea
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            style={{ width: 300 }}
-          ></textarea>
-        </div>
+        <textarea
+          ref={textareaRef}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          style={{ display: !isEditable ? "none" : "block" }}
+          className="w-[300px] bg-slate-100 px-2 py-1 focus:ring-0 focus:outline-none resize-none rounded-md shadow-inner"
+        ></textarea>
       </div>
-      <div style={{ marginLeft: 10 }}>
+      <div className="ms-2">
         {!isEditable && !is_done && (
-          <Button onClick={() => setEditable(true)} text="Edit" />
+          <Button
+            onClick={() => setEditable(true)}
+            text="Edit"
+            className="button-card me-1 shadow-slate-200"
+          />
         )}
         {!isEditable && (
-          <Button onClick={() => dispatch(removeTask(id))} text="Delete" />
+          <Button
+            onClick={() => dispatch(removeTask(id))}
+            text="Delete"
+            className="button-card shadow-slate-200"
+          />
         )}
         {isEditable && (
           <>
@@ -100,6 +101,7 @@ const Task: React.FC<ITask> = (props) => {
                 setEditable(false);
               }}
               text="Save"
+              className="button-card-confirm me-1"
             />
             <Button
               onClick={() => {
@@ -107,6 +109,7 @@ const Task: React.FC<ITask> = (props) => {
                 setValue(title);
               }}
               text="Cancel"
+              className="button-card-confirm"
             />
           </>
         )}

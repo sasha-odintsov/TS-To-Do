@@ -7,6 +7,7 @@ interface Props {
   value: string;
   isFocused?: boolean;
   style?: CSSProperties;
+  className?: string;
   placeholder?: string;
 }
 
@@ -16,6 +17,7 @@ const Input = ({
   value,
   isFocused = false,
   style = {},
+  className,
   placeholder,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -36,6 +38,7 @@ const Input = ({
       ref={inputRef}
       style={{ ...style, borderRadius: 5 }}
       placeholder={placeholder}
+      className={className}
     />
   );
 };

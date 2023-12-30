@@ -1,24 +1,16 @@
 import TasksList from "./TasksList";
 import AddTaskForm from "./AddTaskForm";
 import User from "./User";
+import "../main.css";
 
 const App: React.FC = () => {
   return (
-    <div style={{ padding: "20px 50px" }}>
-      <User />
-      <div
-        style={{
-          textTransform: "uppercase",
-          textAlign: "center",
-          margin: 20,
-          fontWeight: "bold",
-        }}
-      >
+    <div className="max-w-[1280px] mx-auto px-7 py-10">
+      <h1 className="text-slate-200 uppercase text-center font-bold text-9xl -mb-5">
         Tasks List
-      </div>
-      <div
-        style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}
-      >
+      </h1>
+      <div className="flex gap-7">
+        <User />
         <AddTaskForm />
       </div>
       <TasksList />

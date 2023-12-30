@@ -5,8 +5,9 @@ This is app for creating tasks.
 This app build using:
 - react.js,
 - typescript, 
+- tailwind css,
 - redux-toolkit to store data, 
-- redux-persist to save data to local storage
+- redux-persist to save data to local storage.
 
 Demo: https://tasks-todo-list-app.netlify.app
 

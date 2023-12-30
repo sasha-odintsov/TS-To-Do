@@ -7,7 +7,7 @@ import { editTask } from "../store/tasksSlice";
 interface ITasksListItemProps {
   title: string;
   list: ITask[];
-  style: CSSProperties;
+  style?: CSSProperties;
 }
 
 const TasksListItem = ({ title, list, style }: ITasksListItemProps) => {
@@ -24,8 +24,8 @@ const TasksListItem = ({ title, list, style }: ITasksListItemProps) => {
   };
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.currentTarget.style.outline = "#ccc solid";
-    e.currentTarget.style.backgroundColor = "#f8f8f8";
+    e.currentTarget.style.outline = "#e2e8f0 solid";
+    e.currentTarget.style.backgroundColor = "#f8fafc";
   };
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -46,21 +46,21 @@ const TasksListItem = ({ title, list, style }: ITasksListItemProps) => {
 
   return (
     <div
-      style={{
-        ...style,
-        border: "1px solid #000",
-        borderRadius: 5,
-        padding: 10,
-        backgroundColor: "#fff",
-      }}
+      style={{ ...style }}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
       onDragOver={onDragOver}
       onDrop={onDrop}
       data-status={title}
+      className="border border-slate-100 rounded-lg px-7 bg-white shadow-lg shadow-slate-200 pb-4"
     >
-      <div style={{ textAlign: "center" }}>
-        {title} ({list.length})
+      <div className="flex justify-center text-lg text-gray-500 font-medium pt-4">
+        <span>{title}</span>
+        {list.length > 0 && (
+          <div className="bg-blue-200 rounded-full w-7 h-7 text-white text-center ms-2">
+            {list.length}
+          </div>
+        )}
       </div>
       {list.map((task) => (
         <div key={task.id}>
