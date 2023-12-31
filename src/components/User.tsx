@@ -17,7 +17,7 @@ const User = () => {
   };
 
   return (
-    <div className="border border-slate-100 w-1/2 rounded-lg p-7 flex bg-white shadow-lg shadow-slate-200">
+    <div className="border border-slate-100 md:w-1/2 md:mb-0 mb-4 rounded-lg p-7 flex bg-white shadow-lg shadow-slate-200">
       {!storeUser ? (
         <div className="flex w-full">
           <Input
@@ -26,6 +26,7 @@ const User = () => {
             value={user}
             placeholder="Enter your name"
             className="grow bg-slate-100 p-3 me-4 focus:ring-0 focus:outline-none shadow-inner"
+            isFocused={true}
           />
           <Button
             onClick={onSetUser}

@@ -8,9 +8,10 @@ interface ITasksListItemProps {
   title: string;
   list: ITask[];
   style?: CSSProperties;
+  className?: string;
 }
 
-const TasksListItem = ({ title, list, style }: ITasksListItemProps) => {
+const TasksListItem = ({ title, list, style, className }: ITasksListItemProps) => {
   const dispatch = useAppDispatch();
 
   const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -46,13 +47,13 @@ const TasksListItem = ({ title, list, style }: ITasksListItemProps) => {
 
   return (
     <div
-      style={{ ...style }}
+      style={style}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
       onDragOver={onDragOver}
       onDrop={onDrop}
       data-status={title}
-      className="border border-slate-100 rounded-lg px-7 bg-white shadow-lg shadow-slate-200 pb-4"
+      className={className}
     >
       <div className="flex justify-center text-lg text-gray-500 font-medium pt-4">
         <span>{title}</span>

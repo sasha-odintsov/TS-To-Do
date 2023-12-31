@@ -28,14 +28,14 @@ const TasksList = () => {
       style={{
         minHeight: "calc(100vh - 295px)",
       }}
-      className="flex pt-7 gap-7"
+      className="sm:flex md:pt-7 pt-4 md:gap-7 gap-4"
     >
       {taskTypes.map((type, index) => (
         <TasksListItem
           key={index}
           title={type}
           list={filteredTasks(type)}
-          style={{ width: "50%" }}
+          className={`sm:w-1/2 border border-slate-100 rounded-lg px-7 bg-white shadow-lg shadow-slate-200 pb-4 ${index === 0 ? "sm:mb-0 mb-4" : ""}`}
         />
       ))}
     </div>
