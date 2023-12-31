@@ -28,12 +28,12 @@ const AddTaskForm = () => {
   };
 
   return (
-    <div className="border border-slate-100 md:w-1/2 rounded-lg p-7 flex bg-white shadow-lg shadow-slate-200">
+    <div className="border border-slate-100 md:w-1/2 rounded-lg max-xs:p-4 p-7 flex bg-white shadow-lg shadow-slate-200">
       <Input
         value={value}
         onChange={handleChange}
         onClick={onAddTask}
-        className="grow bg-slate-100 p-3 me-4 focus:ring-0 focus:outline-none shadow-inner"
+        className="grow bg-slate-100 p-3 me-4 focus:ring-0 focus:outline-none shadow-inner rounded-md"
         placeholder="Enter task"
       />
       <Button

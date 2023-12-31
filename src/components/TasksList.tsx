@@ -35,7 +35,7 @@ const TasksList = () => {
           key={index}
           title={type}
           list={filteredTasks(type)}
-          className={`sm:w-1/2 border border-slate-100 rounded-lg px-7 bg-white shadow-lg shadow-slate-200 pb-4 ${index === 0 ? "sm:mb-0 mb-4" : ""}`}
+          className={`sm:w-1/2 border border-slate-100 rounded-lg max-xs:px-4 px-7 bg-white shadow-lg shadow-slate-200 pb-4 ${index === 0 ? "sm:mb-0 mb-4" : ""}`}
         />
       ))}
     </div>

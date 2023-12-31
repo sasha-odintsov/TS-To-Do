@@ -36,7 +36,7 @@ const Input = ({
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={handleKeyDown}
       ref={inputRef}
-      style={{ ...style, borderRadius: 5 }}
+      style={style}
       placeholder={placeholder}
       className={className}
     />
